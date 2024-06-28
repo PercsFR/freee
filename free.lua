@@ -7,7 +7,7 @@ end
 repeat task.wait() until game:IsLoaded()
 
 if rconsoleprint then
-rconsoleprint("[*]: System Alert: bludlung.cc has been injected.")
+rconsoleprint("[*]: System Alert: Abyss.xyz has been injected.")
 end
 
 for I, V in pairs(getgc(true)) do
@@ -107,6 +107,87 @@ TeamCheck=true,
 SleeperCheck=true,
 }}
 
+local config = Instance.new("Folder")
+config.Name = "Monkey"
+config.Parent = workspace
+
+local OreESPAdornee = Instance.new("Folder")
+OreESPAdornee.Name = "OreESPAdornee"
+OreESPAdornee.Parent = workspace:WaitForChild("Monkey")
+
+local PlayerESPAdornee = Instance.new("Folder")
+PlayerESPAdornee.Name = "PlayerESPAdornee"
+PlayerESPAdornee.Parent = workspace:WaitForChild("Monkey")
+
+local TotemESPAdornee = Instance.new("Folder")
+TotemESPAdornee.Name = "TotemESPAdornee"
+TotemESPAdornee.Parent = workspace:WaitForChild("Monkey")
+
+local StorageESPAdornee = Instance.new("Folder")
+StorageESPAdornee.Name = "StorageESPAdornee"
+StorageESPAdornee.Parent = workspace:WaitForChild("Monkey")
+local oldTick = tick()
+local Camera = game:GetService("Workspace").CurrentCamera
+local CharcaterMiddle = game:GetService("Workspace").Ignore.LocalCharacter.Middle
+local Mouse = game.Players.LocalPlayer:GetMouse()
+local Sky = game:GetService("Lighting"):FindFirstChildOfClass("Sky")
+if not Sky then
+	Sky = Instance.new("Sky", Lighting)
+end
+
+-- BAR
+local UserInputService = game:GetService("UserInputService")
+local function RUN()
+	local scriptConns = {}
+	local scriptObjects = {}
+
+	local barBackground = Drawing.new("Square")
+	barBackground.Size = Vector2.new(160, 10) -- Adjust the size of the background
+	barBackground.Color = Color3.new(0, 0, 0)
+	barBackground.Filled = true
+	barBackground.Visible = true
+	scriptObjects.background = barBackground
+
+	local barInside = Drawing.new("Square")
+	barInside.Size = Vector2.new(0, 6) -- Adjust the size of the inside bar
+	barInside.Color = Color3.fromHSV(0.5, 1, 1)
+	barInside.Filled = true
+	barInside.Visible = true
+	scriptObjects.inside = barInside
+
+	local runService = game:GetService("RunService")
+	local guiService = game:GetService("GuiService")
+
+	local timeCounter = 0
+
+	scriptConns.Update = runService.Heartbeat:Connect(function(deltaTime)
+		timeCounter = timeCounter + deltaTime * 2
+
+		local barWidth = barBackground.Size.X
+
+		local screenCenter = guiService:GetScreenResolution() / 2
+		local barCenter = screenCenter + Vector2.new(-barWidth / 2, 80)
+
+		barBackground.Position = barCenter
+
+		if timeCounter >= 0.98 then
+			game:GetService("Workspace").Ignore.LocalCharacter.Middle.Anchored = false
+			if game.Workspace:FindFirstChild("Airwalk") then
+				game.Workspace:FindFirstChild("Airwalk"):Destroy()
+			end
+			barBackground:Remove()
+			barInside:Remove()
+			scriptConns.Update:Disconnect()
+			return
+		end
+
+		local insideWidth = timeCounter * barWidth
+		barInside.Position = barCenter - Vector2.new(insideWidth / 2, 0) + Vector2.new(barWidth / 2, 2)
+		barInside.Size = Vector2.new(insideWidth, 6) -- Adjust the size of the inside bar
+		barInside.Color = Color3.fromHSV(0.25 - (timeCounter / 4), 1, 1)
+	end)
+end
+
 --Tables
 local Functions = {}
 local Esp = {
@@ -167,11 +248,6 @@ local Fov = {
 		SnaplineColor = Color3.fromRGB(255, 255, 255),
 	},
 }
---FullBright
-local cache = {}
-local OreCache = {}
-local AllowedOres = { "StoneOre", "NitrateOre", "IronOre" }
-local AllowedItems = { "PartsBox", "MilitaryCrate", "SnallBox", "SnallBox", "Backpack", "VendingMachine" }
 
 local Light = game:GetService("Lighting")
 
@@ -188,7 +264,7 @@ Light.LightingChanged:Connect(dofullbright)
 --Crosshair
 
 settings = {
-    color = Color3.fromRGB(255, 255/2, 255),    -- The color of the crosshair, takes any Color3.
+    color = Color3.fromRGB(0, 128, 128),    -- The color of the crosshair, takes any Color3.
     thickness = 2,                              -- The thickness of the crosshair in pixel, takes any full number.
     length = 8,                                 -- The length of each side in pixel, takes any full number.
     opacity = 1,                                -- The opacity of the crosshair, takes any number, 1 is fully visible and 0 is invisible.
@@ -269,10 +345,10 @@ local BoxESP = {}
 function BoxESP.Create(Player)
     local Box = Drawing.new("Square")
     Box.Visible = false
-    Box.Color = Color3.fromRGB(255, 0, 255)
+    Box.Color = Color3.fromRGB(0, 128, 128)
     Box.Filled = false
     Box.Transparency = 0.50
-    Box.Thickness = 3
+    Box.Thickness = 1.5
 
     local Updater
 
@@ -320,17 +396,17 @@ end)
 EnableBoxESP()
 
  --// ui
-  local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/BigHacker123/Library.lua/main/Library.lua'))()
+  local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/PercsFR/freee/main/Library.lua'))()
   local SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/addons/SaveManager.lua'))()
   local ThemeManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/BigHacker123/Library.lua/main/Theme.lua'))()
   local skybox_assets = loadstring(game:HttpGet("https://raw.githubusercontent.com/BigHacker123/skybox/main/.lua", true))()
   --
-  local Build = "free";local Color = "#00FF00";local Ver = "v1.0"
-  if Build == "free" then Color = '#00FF00' Ver = "v1.0" end
-  local Window = Library:CreateWindow({ Size = UDim2.fromOffset(550, 610),Title = "Bludlung.<font color=\"#d17bff\">cc</font> | ".."<font color=\""..Color.."\">"..Build.."</font>".."                                      ["..Ver.."]",Center = true,AutoShow = true})
+  local Build = "free";local Color = "#7FFF00";local Ver = "v1.0"
+  if Build == "free" then Color = '#7FFF00' Ver = "v1.0" end
+  local Window = Library:CreateWindow({ Size = UDim2.fromOffset(550, 610),Title = "Abyss.<font color=\"#008080\">xyz</font> | ".."<font color=\""..Color.."\">"..Build.."</font>".."                                      ["..Ver.."]",Center = true,AutoShow = true})
   
   --// Notifications
-  Library:Notify(("Welcome thank you for using [BlungLung.cc] - "..game.Players.LocalPlayer.Name.." 👋"), 6)
+  Library:Notify(("Welcome thank you for using [Abyss.xyz] - "..game.Players.LocalPlayer.Name.." 👋"), 6)
   Library:Notify(("Status: - ??? "), 6)
   local notifyPlayerChange = function(player, message, color)
   local prefix = player:IsFriendsWith(game.Players.LocalPlayer.UserId) and "notification - friend" or "notification - player"
@@ -347,6 +423,50 @@ local Tabs = {Combat = Window:AddTab('Combat'),Misc=Window:AddTab('Miscellaneous
 
 local HeadHitboxTabBox = Tabs.Combat:AddLeftTabbox('Hitbox Expander')
 local HeadHitboxTab = HeadHitboxTabBox:AddTab('Torso Hitbox Expander')
+local ExploitsTabBox = Tabs.Misc:AddRightTabbox('Exploits')
+local ExploitsTab = ExploitsTabBox:AddTab('Exploits')
+
+local LongNeckEnabled = false
+local UpperLimitDefault = 3
+local LowerLimitDefault = 1.75
+local CurrentSliderValue = 1.75
+
+ExploitsTab:AddToggle('LongNeck', {
+    Text = 'Long Neck', 
+    Default = false, 
+    Tooltip = '' 
+}):AddKeyPicker('LongNeckKey', {
+    Default = 'V', 
+    SyncToggleState = true, 
+    Mode = 'Toggle', 
+    Text = 'Long Neck', 
+    NoUI = false 
+}):OnChanged(function(value)
+    LongNeckEnabled = value
+    if not LongNeckEnabled then
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.UpperLimit = UpperLimitDefault
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.LowerLimit = LowerLimitDefault
+    else
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.UpperLimit = CurrentSliderValue
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.LowerLimit = CurrentSliderValue
+    end
+end)
+
+ExploitsTab:AddSlider('HeightChangerSlider', {
+    Text = 'height:', 
+    Suffix = "m", 
+    Default = 4.25, 
+    Min = 3.75, 
+    Max = 7.5, 
+    Rounding = 2, 
+    Compact = false
+}):OnChanged(function(Value)
+    CurrentSliderValue = Value
+    if LongNeckEnabled then
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.LowerLimit = Value
+        game:GetService("Workspace").Ignore.LocalCharacter.Bottom.PrismaticConstraint.UpperLimit = Value
+    end
+end)
 
 --
 local MenuGroup = Tabs.UISettings:AddLeftGroupbox('Menu')
@@ -363,7 +483,7 @@ game:GetService("Players").PlayerAdded:Connect(updatePlayerCount)
 game:GetService("Players").PlayerRemoving:Connect(updatePlayerCount)
 updatePlayerCount()
 
-MenuGroup:AddLabel(' Made by:<font color="#de6cff"> Percs#0001</font>', true)
+MenuGroup:AddLabel(' Made by:<font color="#008080"> Percs#0001</font>', true)
 
 MenuGroup:AddButton('Unload Script', function() Library:Unload()
 for i,v in pairs(Toggles) do
@@ -405,7 +525,7 @@ local MiscTab = MiscTabbox:AddTab("Character Exploits")
 local MiscTabbox = Tabs.Misc:AddRightTabbox()
 local Bullets = MiscTabbox:AddTab("Customization")
 
-Bullets:AddLabel("Custom Inventory:"):AddColorPicker("Inventory_Color", { Default = Color3.fromRGB(163, 41, 179) })
+Bullets:AddLabel("Custom Inventory:"):AddColorPicker("Inventory_Color", { Default = Color3.fromRGB(0, 128, 128) })
 Options.Inventory_Color:OnChanged(function(Inventory_Color_Value)
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot26.BackgroundColor3 =
 		Inventory_Color_Value
@@ -414,6 +534,14 @@ Options.Inventory_Color:OnChanged(function(Inventory_Color_Value)
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot28.BackgroundColor3 =
 		Inventory_Color_Value
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot29.BackgroundColor3 =
+		Inventory_Color_Value
+	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot30.BackgroundColor3 =
+		Inventory_Color_Value
+	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot31.BackgroundColor3 =
+		Inventory_Color_Value
+	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot32.BackgroundColor3 =
+		Inventory_Color_Value
+	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Armor.ItemSlot33.BackgroundColor3 =
 		Inventory_Color_Value
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Inventory.ItemSlot6.BackgroundColor3 =
 		Inventory_Color_Value
@@ -457,19 +585,19 @@ Options.Inventory_Color:OnChanged(function(Inventory_Color_Value)
 		Inventory_Color_Value
 end)
 
-Bullets:AddLabel("Energy:"):AddColorPicker("Energy_Color_Value", { Default = Color3.fromRGB(163, 41, 179) })
+Bullets:AddLabel("Energy:"):AddColorPicker("Energy_Color_Value", { Default = Color3.fromRGB(0, 128, 128) })
 Options.Energy_Color_Value:OnChanged(function(Energy_Color_Value)
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.Vitals.EnergyFrame.Energy.BackgroundColor3 =
 		Energy_Color_Value
 end)
 
-Bullets:AddLabel("Health:"):AddColorPicker("Health_Color_Value", { Default = Color3.fromRGB(163, 41, 179) })
+Bullets:AddLabel("Health:"):AddColorPicker("Health_Color_Value", { Default = Color3.fromRGB(0, 128, 128) })
 Options.Health_Color_Value:OnChanged(function(Health_Color_Value)
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.Vitals.HealthFrame.Health.BackgroundColor3 =
 		Health_Color_Value
 end)
 
-Bullets:AddLabel("Ammo:"):AddColorPicker("Ammo_Color_Value", { Default = Color3.fromRGB(163, 41, 179) })
+Bullets:AddLabel("Ammo:"):AddColorPicker("Ammo_Color_Value", { Default = Color3.fromRGB(0, 128, 128) })
 Options.Ammo_Color_Value:OnChanged(function(Ammo_Color_Value)
 	game:GetService("Players").LocalPlayer.PlayerGui.GameUI.FPS.BottomCenter.Ammo.TextColor3 = Ammo_Color_Value
 end)
@@ -530,7 +658,7 @@ Options.ColorGrass1:OnChanged(function(NewColor)
 	end
 end)
 
---* Head Hitbox Expander *--
+--* Torso Hitbox Expander *--
 
 local hbExpander = {
 HeadExtends = false,
@@ -541,7 +669,7 @@ HitboxTransparency = 50,
 }
 
 local HedsOn = Instance.new("Part")
-local HBXColor = Color3.fromRGB(163,41,179)
+local HBXColor = Color3.fromRGB(0, 128, 128)
 local HBXMaterial = "ForceField"
 HedsOn.Name = "HedsOn"
 HedsOn.Anchored = false
@@ -552,7 +680,7 @@ HedsOn.Material = HBXMaterial
 HedsOn.Size = Vector3.new(5, 5, 10)
 HedsOn.Parent = game.ReplicatedStorage
 
-HeadHitboxTab:AddToggle('HBO',{Text='Toggle',Default=false}):AddColorPicker('HBX_Color',{Default=Color3.fromRGB(208, 123, 255),Title='Color'}):OnChanged(function(Value)
+HeadHitboxTab:AddToggle('HBO',{Text='Toggle',Default=false}):AddColorPicker('HBX_Color',{Default=Color3.fromRGB(0, 128, 128),Title='Color'}):OnChanged(function(Value)
 hbExpander.HeadExtends = Value
 end)
 Options.HBX_Color:OnChanged(function(Value)
@@ -563,12 +691,12 @@ HeadHitboxTab:AddDropdown('', {Values = {"ForceField", "Neon", "CrackedLava"}, D
 HBXMaterial = Dropdown
 end)
 
-HeadHitboxTab:AddSlider('HitboxXSize_Slider', {Text = 'Hitbox Width:', Default = 5, Min = 0, Max = 10, Rounding = 2, Suffix = "%", Compact = false}):OnChanged(function(HitboxXSize)
+HeadHitboxTab:AddSlider('HitboxXSize_Slider', {Text = 'Hitbox Width:', Default = 5, Min = 0, Max = 7,5, Rounding = 2, Compact = false}):OnChanged(function(HitboxXSize)
 hbExpander.XSize = HitboxXSize
 hbExpander.ZSize = HitboxXSize
 end)
 
-HeadHitboxTab:AddSlider('HitboxYSize_Slider', {Text = 'Hitbox Height:', Default = 5, Min = 0, Max = 10, Rounding = 2, Suffix = "%", Compact = false}):OnChanged(function(HitboxYSize)
+HeadHitboxTab:AddSlider('HitboxYSize_Slider', {Text = 'Hitbox Height:', Default = 5, Min = 0, Max = 7,5, Rounding = 2, Compact = false}):OnChanged(function(HitboxYSize)
 hbExpander.YSize = HitboxYSize
 hbExpander.ZSize = HitboxYSize
 end)
@@ -602,5 +730,17 @@ else
 		end
 	end
 end
+end
+end)
+
+--
+local ComExtraTabBox = Tabs.Misc:AddLeftTabbox('Extra')
+local ComExtraTab = ComExtraTabBox:AddTab('Extra')
+
+ComExtraTab:AddToggle('BloodSplatter', {Text = 'Remove Blood', Default = false}):OnChanged(function(BloodSplatter_Toggle)
+if BloodSplatter_Toggle == false then
+game:GetService("Players").LocalPlayer.PlayerGui.GameUI.BloodSplatter.Visible = true
+elseif BloodSplatter_Toggle == true then
+game:GetService("Players").LocalPlayer.PlayerGui.GameUI.BloodSplatter.Visible = false
 end
 end)
